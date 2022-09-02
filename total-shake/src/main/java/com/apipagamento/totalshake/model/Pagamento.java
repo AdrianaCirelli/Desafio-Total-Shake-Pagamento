@@ -1,11 +1,9 @@
 package com.apipagamento.totalshake.model;
 
 
-import com.apipagamento.totalshake.dtoResponse.PagamentoDtoResponse;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
 

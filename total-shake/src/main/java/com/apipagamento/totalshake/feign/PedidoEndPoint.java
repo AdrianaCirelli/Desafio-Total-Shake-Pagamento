@@ -7,10 +7,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @FeignClient(url = "http://localhost:8080/pedidos", name = "TotalShakeAPI")
 public interface PedidoEndPoint {
-
-
     @PutMapping("pedidos/{id}")
-    void atualizaStatusPedido(@PathVariable Long id);
+    void atualizaPedido(@PathVariable Long id);
 
 }
 

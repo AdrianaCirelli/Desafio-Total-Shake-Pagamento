@@ -1,6 +1,7 @@
 package com.apipagamento.totalshake.model;
 
 
+import com.apipagamento.totalshake.dtoResponse.PagamentoDtoResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -46,6 +47,10 @@ public class Pagamento {
         this.status = status;
         this.pedidoId = pedidoId;
         this.formaDePagamento = formaDePagamento;
+    }
+
+    public PagamentoDtoResponse toDtoResponse(){
+        return new PagamentoDtoResponse (valor, nome, numero,expiracao, codigo, status, pedidoId, formaDePagamento);
     }
 
 }

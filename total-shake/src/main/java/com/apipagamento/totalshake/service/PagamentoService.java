@@ -5,13 +5,13 @@ import com.apipagamento.totalshake.dtoResponse.PagamentoDtoResponse;
 import com.apipagamento.totalshake.model.Pagamento;
 import com.apipagamento.totalshake.repository.PagamentoRepository;
 import com.apipagamento.totalshake.service.exeception.ResourceNotFoundExeception;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 
 import java.util.Optional;
-
 
 @Service
 public class PagamentoService {
@@ -19,6 +19,10 @@ public class PagamentoService {
 
     @Autowired
     PagamentoRepository pagamentoRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
 
     public ResponseEntity<PagamentoDtoResponse> getAll() {
         return ResponseEntity.ok(new PagamentoDtoResponse((Pagamento) pagamentoRepository.findAll()));
@@ -29,7 +33,7 @@ public class PagamentoService {
        return new PagamentoDtoResponse(pagamento);
    }
 
-    public PagamentoDtoResponse insert  (Pagamento pagamento) {
+    public PagamentoDtoResponse insert (Pagamento pagamento) {
         return new PagamentoDtoResponse(pagamentoRepository.save(pagamento)) ;
     }
 
@@ -47,11 +51,12 @@ public class PagamentoService {
 
 
     public PagamentoDtoResponse update(Long id, PagamentoDtoRequest pagamentoDtoRequest) {
-        Optional<Pagamento> pagamento = pagamentoRepository.findById(id);
-        if (pagamento.isPresent()) {
-            pagamentoRepository.save(atualizarPagamento (Model.get(), pagamentoDtoRequest);
-            System.out.println("Pagamento Atualizado");
-        } throw new ResourceNotFoundExeception("Id Not Found.");
+       Pagamento pagamento = pagamentoRepository.findById(id).get();
+        if (pagamento == null) {
+            throw new ResourceNotFoundExeception("Id Not Found.");
+        }
+        Pagamento pagamentoAtualizado = pagamentoRepository.save(atualizarPagamento(pagamento, pagamentoDtoRequest));
+        return pagamentoAtualizado.toDtoResponse();
 
     }
 

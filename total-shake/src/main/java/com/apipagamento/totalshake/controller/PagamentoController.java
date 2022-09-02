@@ -20,6 +20,12 @@ public class PagamentoController {
 
     //fluxo correto: controller para service , da service para repository
 
+    @GetMapping(value ="/all")
+    public ResponseEntity<PagamentoDtoResponse> getAll (){
+        PagamentoDtoResponse pagamentoDtoResponse = pagamentoService.getAll().getBody();
+        return ResponseEntity.ok().body(pagamentoDtoResponse);
+    }
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<PagamentoDtoResponse> getPAgamentoById (@PathVariable Long id) {
         PagamentoDtoResponse pagamento= pagamentoService.getPagamentoById(id);

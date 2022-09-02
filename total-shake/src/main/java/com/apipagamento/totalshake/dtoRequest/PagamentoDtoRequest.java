@@ -1,10 +1,8 @@
 package com.apipagamento.totalshake.dtoRequest;
 
-import com.apipagamento.totalshake.dtoResponse.PagamentoDtoResponse;
 import com.apipagamento.totalshake.model.FormaDePagamento;
 import com.apipagamento.totalshake.model.Pagamento;
 import com.apipagamento.totalshake.model.Status;
-import com.apipagamento.totalshake.repository.PagamentoRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

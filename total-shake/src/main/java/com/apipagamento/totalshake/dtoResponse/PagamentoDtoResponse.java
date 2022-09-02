@@ -4,6 +4,8 @@ import com.apipagamento.totalshake.model.FormaDePagamento;
 import com.apipagamento.totalshake.model.Pagamento;
 import com.apipagamento.totalshake.model.Status;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -44,6 +46,7 @@ public class PagamentoDtoResponse {
     @Enumerated(EnumType.STRING)
     private FormaDePagamento formaDePagamento;
 
+
     public PagamentoDtoResponse(Pagamento pagamento) {
         this.id = pagamento.getId();
         this.valor = pagamento.getValor();
@@ -56,6 +59,7 @@ public class PagamentoDtoResponse {
         this.formaDePagamento = pagamento.getFormaDePagamento();
     }
 
-    public PagamentoDtoResponse(BigDecimal valor, String nome, String numero, String expiracao, String codigo, Status status, Long pedidoId, FormaDePagamento formaDePagamento) {
+    public PagamentoDtoResponse(){
+
     }
 }

@@ -49,8 +49,8 @@ public class Pagamento {
         this.formaDePagamento = formaDePagamento;
     }
 
-    public PagamentoDtoResponse toDtoResponse(){
-        return new PagamentoDtoResponse (valor, nome, numero,expiracao, codigo, status, pedidoId, formaDePagamento);
-    }
+//    public PagamentoDtoResponse toDtoResponse(){
+//        return new PagamentoDtoResponse (valor, nome, numero,expiracao, codigo, status, pedidoId, formaDePagamento);
+//    }
 
 }

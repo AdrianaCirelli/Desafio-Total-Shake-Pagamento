@@ -1,12 +1,10 @@
 package com.apipagamento.totalshake.controller;
 
-
 import com.apipagamento.totalshake.dtoRequest.PagamentoDtoRequest;
 import com.apipagamento.totalshake.dtoResponse.PagamentoDtoResponse;
 import com.apipagamento.totalshake.model.Pagamento;
 import com.apipagamento.totalshake.service.PagamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,11 +17,9 @@ public class PagamentoController {
     PagamentoService pagamentoService;
 
     //fluxo correto: controller para service , da service para repository
-
     @GetMapping(value ="/all")
-    public ResponseEntity<PagamentoDtoResponse> getAll (){
-        PagamentoDtoResponse pagamentoDtoResponse = pagamentoService.getAll().getBody();
-        return ResponseEntity.ok().body(pagamentoDtoResponse);
+    public ResponseEntity<?> getAll (){
+        return ResponseEntity.ok(pagamentoService.getAll());
     }
 
     @GetMapping(value = "/{id}")

@@ -7,10 +7,10 @@ import com.apipagamento.totalshake.repository.PagamentoRepository;
 import com.apipagamento.totalshake.service.exeception.ResourceNotFoundExeception;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.ModelMap;
 
+
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,8 +24,8 @@ public class PagamentoService {
     private ModelMapper modelMapper;
 
 
-    public ResponseEntity<PagamentoDtoResponse> getAll() {
-        return ResponseEntity.ok(new PagamentoDtoResponse((Pagamento) pagamentoRepository.findAll()));
+    public List<PagamentoDtoResponse> getAll() {
+        return pagamentoRepository.findAll().stream().map(pagamento -> modelMapper.map(pagamento,PagamentoDtoResponse.class)).toList();
     }
    public PagamentoDtoResponse getPagamentoById(Long id) {
        Optional<Pagamento> obj = pagamentoRepository.findById(id);
@@ -36,30 +36,12 @@ public class PagamentoService {
     public PagamentoDtoResponse insert (Pagamento pagamento) {
         return new PagamentoDtoResponse(pagamentoRepository.save(pagamento)) ;
     }
-
-    private Pagamento atualizarPagamento(Pagamento model,  PagamentoDtoRequest request) {
-        model.setValor(request.getValor());
-        model.setNome(request.getNome());
-        model.setNumero(request.getNumero());
-        model.setExpiracao(request.getExpiracao());
-        model.setCodigo(request.getCodigo());
-        model.setStatus(request.getStatus());
-        model.setPedidoId(request.getPedidoId());
-        model.setFormaDePagamento(request.getFormaDePagamento());
-        return model;
-    }
-
-
     public PagamentoDtoResponse update(Long id, PagamentoDtoRequest pagamentoDtoRequest) {
-       Pagamento pagamento = pagamentoRepository.findById(id).get();
-        if (pagamento == null) {
-            throw new ResourceNotFoundExeception("Id Not Found.");
-        }
-        Pagamento pagamentoAtualizado = pagamentoRepository.save(atualizarPagamento(pagamento, pagamentoDtoRequest));
-        return pagamentoAtualizado.toDtoResponse();
-
+       Pagamento pagamento = pagamentoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundExeception("Id Not Found"));
+        //ModelMapper : mapeia x para y - p aasagem de valores para os atributos de outra classe
+        Pagamento pagamentoAtualizado = pagamentoRepository.save(modelMapper.map(pagamentoDtoRequest, Pagamento.class));
+        return   modelMapper.map(pagamentoAtualizado, PagamentoDtoResponse.class);
     }
-
 
     public void delete(Long id) {
         Optional<Pagamento> pagamento = pagamentoRepository.findById(id);

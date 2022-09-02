@@ -56,6 +56,4 @@ public class PagamentoDtoResponse {
         this.formaDePagamento = pagamento.getFormaDePagamento();
     }
 
-    public PagamentoDtoResponse(BigDecimal valor, String nome, String expiracao, String codigo, Status status, Long pedidoId) {
-    }
 }

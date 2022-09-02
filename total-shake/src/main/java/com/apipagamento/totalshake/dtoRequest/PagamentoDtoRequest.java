@@ -4,6 +4,7 @@ import com.apipagamento.totalshake.dtoResponse.PagamentoDtoResponse;
 import com.apipagamento.totalshake.model.FormaDePagamento;
 import com.apipagamento.totalshake.model.Pagamento;
 import com.apipagamento.totalshake.model.Status;
+import com.apipagamento.totalshake.repository.PagamentoRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -48,7 +49,9 @@ public class PagamentoDtoRequest {
     private FormaDePagamento formaDePagamento;
 
     public Pagamento toModel (){
-        return new Pagamento ();
+        return new Pagamento (valor, nome, numero,expiracao, codigo, status, pedidoId, formaDePagamento);
     }
+
+
 }
 

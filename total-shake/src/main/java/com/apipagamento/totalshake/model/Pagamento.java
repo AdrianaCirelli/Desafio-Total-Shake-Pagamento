@@ -1,6 +1,6 @@
 package com.apipagamento.totalshake.model;
 
-import com.apipagamento.totalshake.dtoRequest.PagamentoDtoRequest;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,8 +12,6 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "tb_pagamento")
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class Pagamento {
 
     @Id
@@ -36,6 +34,18 @@ public class Pagamento {
 
     private FormaDePagamento formaDePagamento;
 
+    public Pagamento() {
+    }
 
+    public Pagamento(BigDecimal valor, String nome, String numero, String expiracao, String codigo, Status status, Long pedidoId, FormaDePagamento formaDePagamento) {
+        this.valor = valor;
+        this.nome = nome;
+        this.numero = numero;
+        this.expiracao = expiracao;
+        this.codigo = codigo;
+        this.status = status;
+        this.pedidoId = pedidoId;
+        this.formaDePagamento = formaDePagamento;
+    }
 
 }

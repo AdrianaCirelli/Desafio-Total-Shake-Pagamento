@@ -1,8 +1,12 @@
 package com.apipagamento.totalshake.service;
 
 import com.apipagamento.totalshake.dtoRequest.PagamentoDtoRequest;
+import com.apipagamento.totalshake.dtoRequest.StatusRequest;
 import com.apipagamento.totalshake.dtoResponse.PagamentoDtoResponse;
+import com.apipagamento.totalshake.feign.PedidoEndPoint;
+import com.apipagamento.totalshake.feign.request.PedidoRequest;
 import com.apipagamento.totalshake.model.Pagamento;
+import com.apipagamento.totalshake.model.Status;
 import com.apipagamento.totalshake.repository.PagamentoRepository;
 import com.apipagamento.totalshake.service.exeception.ResourceNotFoundExeception;
 import org.modelmapper.ModelMapper;
@@ -16,12 +20,14 @@ import java.util.Optional;
 @Service
 public class PagamentoService {
 
-
     @Autowired
     PagamentoRepository pagamentoRepository;
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private PedidoEndPoint pedidoEndPoint;
 
 
     public List<PagamentoDtoResponse> getAll() {
@@ -34,18 +40,36 @@ public class PagamentoService {
    }
 
     public PagamentoDtoResponse insert (Pagamento pagamento) {
-        return new PagamentoDtoResponse(pagamentoRepository.save(pagamento)) ;
+        return new PagamentoDtoResponse(pagamentoRepository.save(pagamento));
     }
-    public PagamentoDtoResponse update(Long id, PagamentoDtoRequest pagamentoDtoRequest) {
+    public PagamentoDtoResponse update(Long id, StatusRequest statusRequest) {
        Pagamento pagamento = pagamentoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundExeception("Id Not Found"));
-        //ModelMapper : mapeia x para y - p aasagem de valores para os atributos de outra classe
-        Pagamento pagamentoAtualizado = pagamentoRepository.save(modelMapper.map(pagamentoDtoRequest, Pagamento.class));
-        return   modelMapper.map(pagamentoAtualizado, PagamentoDtoResponse.class);
-    }
+       pagamento = atualizaStatusPagamento(pagamento, statusRequest.getStatus());
 
+       pagamentoRepository.save(pagamento);
+
+       if(statusRequest.getStatus().equals(Status.CONFIRMADO.toString())){
+
+           atualizaStatusPedido(pagamento.getPedidoId());
+       }
+       return new PagamentoDtoResponse(pagamento);
+
+    }
     public void delete(Long id) {
         Optional<Pagamento> pagamento = pagamentoRepository.findById(id);
         pagamentoRepository.deleteById(id);
+    }
+
+
+    private Pagamento atualizaStatusPagamento(Pagamento model, String status){
+        model.setStatus(Status.valueOf(status));
+        return model;
+    }
+
+
+
+    public void atualizaStatusPedido( Long id){
+        pedidoEndPoint.atualizaPedido(id, new PedidoRequest("PAGO"));
     }
 
 }

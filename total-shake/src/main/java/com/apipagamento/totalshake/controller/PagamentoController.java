@@ -1,8 +1,10 @@
 package com.apipagamento.totalshake.controller;
 
 import com.apipagamento.totalshake.dtoRequest.PagamentoDtoRequest;
+import com.apipagamento.totalshake.dtoRequest.StatusRequest;
 import com.apipagamento.totalshake.dtoResponse.PagamentoDtoResponse;
 import com.apipagamento.totalshake.feign.PedidoEndPoint;
+import com.apipagamento.totalshake.feign.request.PedidoRequest;
 import com.apipagamento.totalshake.model.Pagamento;
 import com.apipagamento.totalshake.service.PagamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,12 +42,10 @@ public class PagamentoController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<PagamentoDtoResponse> update (@PathVariable Long  id, @RequestBody PagamentoDtoRequest pagamentoDtoRequest){
-        return ResponseEntity.ok().body(pagamentoService.update(id, pagamentoDtoRequest));
+    public ResponseEntity<PagamentoDtoResponse> update (@PathVariable Long  id, @RequestBody StatusRequest statusRequest){
+        return ResponseEntity.ok().body(pagamentoService.update(id, statusRequest));
 
     }
-
-
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<PagamentoDtoResponse> delete(@PathVariable Long id){

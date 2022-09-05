@@ -69,6 +69,7 @@ public class PagamentoService {
 
 
     public void atualizaStatusPedido( Long id){
+
         pedidoEndPoint.atualizaPedido(id, new PedidoRequest("PAGO"));
     }
 

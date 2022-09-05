@@ -1,8 +1,5 @@
 package com.apipagamento.totalshake.model;
 
-
-
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import javax.persistence.*;
 import java.math.BigDecimal;
